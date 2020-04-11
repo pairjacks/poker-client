@@ -2,10 +2,6 @@
   "name": "poker-client",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "npm": "6.7.0",
-    "node": "11.10.1"
-  },
   "dependencies": {
     "poker-cards": "https://github.com/desmondmc/poker-cards#ba89df2fdd86c1d875db130a9a27c46bfe562dc1",
     "mobx": "5.15.4",
