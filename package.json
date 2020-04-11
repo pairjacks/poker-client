@@ -1,0 +1,53 @@
+{
+  "name": "poker-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "poker-cards": "https://github.com/desmondmc/poker-cards#ba89df2fdd86c1d875db130a9a27c46bfe562dc1",
+    "mobx": "5.15.4",
+    "mobx-react": "6.2.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.1",
+    "styled-components": "5.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "25.2.1",
+    "@types/node": "13.11.1",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "@types/styled-components": "5.0.1",
+    "prettier": "2.0.4",
+    "stylelint": "13.3.1",
+    "stylelint-config-prettier": "8.0.1",
+    "stylelint-config-rational-order": "0.1.2",
+    "stylelint-config-standard": "20.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-order": "4.0.0",
+    "stylelint-prettier": "1.1.2",
+    "stylelint-processor-styled-components": "1.10.0",
+    "typescript": "3.8.3",
+    "typescript-styled-plugin": "0.15.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
