@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { observable } from "mobx";
-import { LimitedTable, isServerMessage } from "../shared/messages/server";
-import {
+import { isServerMessage } from "poker-messages";
+import type {
+  LimitedTable,
   ClientJoinTableMessage,
   ClientCreateTableMessage,
   ClientStartGameMessage,
@@ -11,7 +12,7 @@ import {
   ClientFoldMessage,
   ClientCallMessage,
   ClientCheckMessage,
-} from "../shared/messages/client";
+} from "poker-messages";
 
 export interface JoinTableOptions {
   seatToken: string;
@@ -25,23 +26,30 @@ export interface CreateTableOptions {
   smallBlind: number;
 }
 
+export type ServerConnectionStatus =
+  | "connecting"
+  | "connected"
+  | "disconnected";
+
 interface AppState {
-  isConnected: boolean;
+  connectionStatus: ServerConnectionStatus;
   table?: LimitedTable;
 }
 
 export class Store {
   @observable data: AppState = {
-    isConnected: false,
+    connectionStatus: "disconnected",
   };
 
   private ws?: WebSocket;
 
   connect() {
+    this.data.connectionStatus = "connecting";
+
     this.ws = new WebSocket("wss://easy-poker-server.herokuapp.com");
 
     this.ws.addEventListener("open", () => {
-      this.data.isConnected = true;
+      this.data.connectionStatus = "connected";
       setInterval(() => {
         this.ws?.send("PING");
       }, 20000);
@@ -55,7 +63,7 @@ export class Store {
     });
 
     this.ws.addEventListener("close", () => {
-      this.data.isConnected = false;
+      this.data.connectionStatus = "disconnected";
     });
 
     this.ws.addEventListener("message", (event) => {

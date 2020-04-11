@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import Seat from "../components/Seat";
 
 import type { FCWithoutChildren } from "../types/component";
+import ConnectionStatus from "../components/ConnectionStatus";
 
 const TableScreen: FCWithoutChildren = () => {
   const store = useStore();
@@ -30,6 +31,9 @@ const TableScreen: FCWithoutChildren = () => {
 
   return (
     <Container>
+      <Top>
+        <ConnectionStatus />
+      </Top>
       {!store.data.table.isStarted && (
         <StartButton onClick={store.onStartGame}>Start Game</StartButton>
       )}
@@ -101,6 +105,10 @@ const Container = styled.div`
   display: flex;
   flex: 1 0;
   flex-direction: column;
+`;
+
+const Top = styled.div`
+  margin: 2em auto;
 `;
 
 const StartButton = styled.button`

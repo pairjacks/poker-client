@@ -2,15 +2,15 @@ import React from "react";
 import { observer } from "mobx-react";
 import styled from "styled-components";
 
-import { useStore } from "../state/store";
+import { useStore, ServerConnectionStatus } from "../state/store";
 import type { FCWithoutChildren } from "../types/component";
 
 const ConnectionStatus: FCWithoutChildren = () => {
   const store = useStore();
 
   return (
-    <Container status={store.data.isConnected ? "connected" : "disconnected"}>
-      {store.data.isConnected ? "Connected" : "Disconnected"}
+    <Container status={store.data.connectionStatus}>
+      {store.data.connectionStatus}
     </Container>
   );
 };
@@ -18,10 +18,16 @@ const ConnectionStatus: FCWithoutChildren = () => {
 export default observer(ConnectionStatus);
 
 const Container = observer(styled.div<{
-  status: "connected" | "disconnected";
+  status: ServerConnectionStatus;
 }>`
-  color: ${({ status, theme }) =>
-    status === "connected"
-      ? theme.colors.serverConnected
-      : theme.colors.serverDisconnected};
+  color: ${({ status, theme }) => {
+    switch (status) {
+      case "connected":
+        return theme.colors.serverConnected;
+      case "disconnected":
+        return theme.colors.serverDisconnected;
+      case "connecting":
+        return theme.colors.serverConnecting;
+    }
+  }};
 `);

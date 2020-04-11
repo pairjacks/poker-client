@@ -6,6 +6,7 @@ export const theme = {
   colors: {
     bodyText: "black",
     background: "white",
+    serverConnecting: "lightgrey",
     serverConnected: "green",
     serverDisconnected: "red",
     playingCardBackground: "white",

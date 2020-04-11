@@ -6,7 +6,7 @@ import { isSameCard, describeHand } from "poker-cards";
 import Card from "./Card";
 
 import type { Hand, Cards } from "poker-cards";
-import type { Seat } from "../shared/messages/server";
+import type { Seat } from "poker-messages";
 import type { FCWithoutChildren } from "../types/component";
 
 const urlWithPath = (path: string) =>
