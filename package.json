@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "poker-cards": "https://github.com/desmondmc/poker-cards#ba89df2fdd86c1d875db130a9a27c46bfe562dc1",
-    "poker-messages": "https://github.com/easy-poker/poker-messages#b220ec5acf71d3480665f8709e2f12e4f5cb9ccb",
+    "poker-messages": "https://github.com/pairjacks/poker-messages#b220ec5acf71d3480665f8709e2f12e4f5cb9ccb",
     "mobx": "5.15.4",
     "mobx-react": "6.2.2",
     "react": "16.13.1",
