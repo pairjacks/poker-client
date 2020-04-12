@@ -96,10 +96,10 @@ const SeatComponent: FCWithoutChildren<{
         </Item>
       )}
       <Item>Current Bet: {seat.chipsBetCount}</Item>
-      {isCurrentUser && (
+      {pocketCards && (
         <Item>
           <PocketCards>
-            {pocketCards?.map(([face, suit]) => (
+            {pocketCards.map(([face, suit]) => (
               <Card
                 face={face}
                 suit={suit}

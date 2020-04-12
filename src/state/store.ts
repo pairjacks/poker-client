@@ -48,6 +48,7 @@ export class Store {
     this.data.connectionStatus = "connecting";
 
     this.ws = new WebSocket("wss://easy-poker-server.herokuapp.com");
+    // this.ws = new WebSocket("ws://localhost:8080");
 
     this.ws.addEventListener("open", () => {
       this.data.connectionStatus = "connected";
