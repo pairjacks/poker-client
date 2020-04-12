@@ -6,7 +6,7 @@ import { isSameCard, describeHand } from "@pairjacks/poker-cards";
 import Card from "./Card";
 
 import type { Hand, Cards } from "@pairjacks/poker-cards";
-import type { Seat } from "poker-messages";
+import type { Seat } from "@pairjacks/poker-messages";
 import type { FCWithoutChildren } from "../types/component";
 import ChipStack from "./ChipStack";
 

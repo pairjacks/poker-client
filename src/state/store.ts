@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { observable } from "mobx";
-import { isServerMessage } from "poker-messages";
+import { isServerMessage } from "@pairjacks/poker-messages";
 import type {
   LimitedTable,
   ClientJoinTableMessage,
@@ -12,7 +12,7 @@ import type {
   ClientFoldMessage,
   ClientCallMessage,
   ClientCheckMessage,
-} from "poker-messages";
+} from "@pairjacks/poker-messages";
 
 export interface JoinTableOptions {
   seatToken: string;
