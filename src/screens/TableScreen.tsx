@@ -92,7 +92,11 @@ const TableScreen: FCWithoutChildren = () => {
                 s.isDealer
               }
               pocketCards={s.pocketCards}
-              hand={isCurrentUser ? currentPlayerHand : undefined}
+              hand={
+                isCurrentUser && s.pocketCards?.length
+                  ? currentPlayerHand
+                  : undefined
+              }
               onBetPress={store.onPlaceBet}
               onCallPress={store.onCall}
               onCheckPress={store.onCheck}
