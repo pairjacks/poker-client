@@ -8,6 +8,7 @@ import Seat from "../components/Seat";
 
 import type { FCWithoutChildren } from "../types/component";
 import ConnectionStatus from "../components/ConnectionStatus";
+import ChipStack from "../components/ChipStack";
 
 const TableScreen: FCWithoutChildren = () => {
   const store = useStore();
@@ -37,11 +38,17 @@ const TableScreen: FCWithoutChildren = () => {
       {!store.data.table.isStarted && (
         <StartButton onClick={store.onStartGame}>Start Game</StartButton>
       )}
-      <Pots>{`Pot: ${store.data.table.potChipCount}`}</Pots>
+
+      <Pots>
+        <ChipStack chipCount={store.data.table.potChipCount} />
+      </Pots>
       {store.data.table.splitPots.map((splitPot) => (
-        <Pots>{`Split Pot: ${splitPot.chipCount} - ${splitPot.players.join(
-          ", "
-        )}`}</Pots>
+        <Pots>
+          <Center>
+            <ChipStack chipCount={splitPot.chipCount} />
+            {`Split Pot: ${splitPot.players.join(", ")}`}
+          </Center>
+        </Pots>
       ))}
       <Board>
         {store.data.table.communityCards.map(([face, suit]) => (
@@ -112,6 +119,13 @@ const TopRight = styled.div`
   position: absolute;
   right: 2em;
   top: 1em;
+`;
+
+const Center = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StartButton = styled.button`

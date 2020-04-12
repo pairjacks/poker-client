@@ -8,6 +8,7 @@ import Card from "./Card";
 import type { Hand, Cards } from "poker-cards";
 import type { Seat } from "poker-messages";
 import type { FCWithoutChildren } from "../types/component";
+import ChipStack from "./ChipStack";
 
 const urlWithPath = (path: string) =>
   window.location.protocol + "//" + window.location.host + "/" + path;
@@ -71,62 +72,77 @@ const SeatComponent: FCWithoutChildren<{
   }
 
   return (
-    <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
-      <Item>{displayName || "Empty"}</Item>
-      <Item>Chip count: {seat.chipCount}</Item>
-      {canBet && (
-        <Item>
-          <BetInputContainer>
-            Bet:
-            <input
-              type="text"
-              value={betInputValue}
-              onChange={(event) => setBetInputValue(event.target.value)}
-            />
-          </BetInputContainer>
-          <BetButton
-            onClick={() => onBetPress(Number(betInputValue))}
-            disabled={!betInputValue}
-          >
-            Bet
-          </BetButton>
-          <BetButton onClick={onCheckPress}>Check</BetButton>
-          <BetButton onClick={onCallPress}>Call</BetButton>
-          <BetButton onClick={onFoldPress}>Fold</BetButton>
-        </Item>
-      )}
-      <Item>Current Bet: {seat.chipsBetCount}</Item>
-      {pocketCards && (
-        <Item>
-          <PocketCards>
-            {pocketCards.map(([face, suit]) => (
-              <Card
-                face={face}
-                suit={suit}
-                highlight={
-                  !!hand?.rankCards.find((card) =>
-                    isSameCard(card, [face, suit])
-                  )
-                }
-                key={`${face}${suit}`}
+    <OuterContainer>
+      <Center>
+        <ChipStack chipCount={seat.chipsBetCount} />
+      </Center>
+      <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
+        <Item>{displayName || "Empty"}</Item>
+        {canBet && (
+          <Item>
+            <BetInputContainer>
+              Bet:
+              <input
+                type="text"
+                value={betInputValue}
+                onChange={(event) => setBetInputValue(event.target.value)}
               />
-            ))}
-          </PocketCards>
-          {hand ? describeHand(hand) : null}
-        </Item>
-      )}
-      {isDealer ? <Item>{"Dealer ✋"}</Item> : null}
-      {deathText ? <Item>{deathText}</Item> : null}
-      {canDeal ? (
-        <Item>
-          <DealButton onClick={onDealPress}>Deal</DealButton>
-        </Item>
-      ) : null}
-    </Container>
+            </BetInputContainer>
+            <BetButton
+              onClick={() => {
+                onBetPress(Number(betInputValue));
+                setBetInputValue("");
+              }}
+              disabled={!betInputValue}
+            >
+              Bet
+            </BetButton>
+            <BetButton onClick={onCheckPress}>Check</BetButton>
+            <BetButton onClick={onCallPress}>Call</BetButton>
+            <BetButton onClick={onFoldPress}>Fold</BetButton>
+          </Item>
+        )}
+        <Center style={{ marginTop: 40 }}>
+          <ChipStack chipCount={seat.chipCount} />
+        </Center>
+        {pocketCards && (
+          <Item>
+            <PocketCards>
+              {pocketCards.map(([face, suit]) => (
+                <Card
+                  face={face}
+                  suit={suit}
+                  highlight={
+                    !!hand?.rankCards.find((card) =>
+                      isSameCard(card, [face, suit])
+                    )
+                  }
+                  key={`${face}${suit}`}
+                />
+              ))}
+            </PocketCards>
+            {hand ? describeHand(hand) : null}
+          </Item>
+        )}
+        {isDealer ? <Item>{"Dealer ✋"}</Item> : null}
+        {deathText ? <Item>{deathText}</Item> : null}
+        {canDeal ? (
+          <Item>
+            <DealButton onClick={onDealPress}>Deal</DealButton>
+          </Item>
+        ) : null}
+      </Container>
+    </OuterContainer>
   );
 };
 
 export default observer(SeatComponent);
+
+const OuterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+`;
 
 const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
   flex: 1 0;
@@ -145,6 +161,12 @@ const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
 
 const Item = styled.li`
   margin-bottom: 0.4em;
+`;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
 `;
 
 const PocketCards = styled.div`
