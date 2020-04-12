@@ -77,7 +77,7 @@ const SeatComponent: FCWithoutChildren<{
         <ChipStack chipCount={seat.chipsBetCount} />
       </Center>
       <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
-        <Item>{displayName || "Empty"}</Item>
+        <Item style={{ fontSize: 40 }}>{displayName || "Empty"}</Item>
         {canBet && (
           <Item>
             <BetInputContainer>
