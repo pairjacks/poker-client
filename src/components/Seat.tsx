@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { observer } from "mobx-react";
 import styled from "styled-components";
-import { isSameCard, describeHand } from "poker-cards";
+import { isSameCard, describeHand } from "@pairjacks/poker-cards";
 
 import Card from "./Card";
 
-import type { Hand, Cards } from "poker-cards";
+import type { Hand, Cards } from "@pairjacks/poker-cards";
 import type { Seat } from "poker-messages";
 import type { FCWithoutChildren } from "../types/component";
 import ChipStack from "./ChipStack";
@@ -121,7 +121,7 @@ const SeatComponent: FCWithoutChildren<{
                 />
               ))}
             </PocketCards>
-            {hand ? describeHand(hand) : null}
+            {hand ? Object.values(describeHand(hand)).join(", ") : null}
           </Item>
         )}
         {isDealer ? <Item>{"Dealer ✋"}</Item> : null}

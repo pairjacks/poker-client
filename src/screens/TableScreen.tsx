@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { extractHand, isSameCard } from "poker-cards";
+import { extractHand, isSameCard } from "@pairjacks/poker-cards";
 import styled from "styled-components";
 
 import { useStore } from "../state/store";

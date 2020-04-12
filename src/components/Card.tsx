@@ -1,5 +1,5 @@
 import React from "react";
-import { Face, Suit } from "poker-cards";
+import { Face, Suit } from "@pairjacks/poker-cards";
 
 import type { FCWithoutChildren } from "../types/component";
 import styled from "styled-components";
