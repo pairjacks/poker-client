@@ -6,7 +6,7 @@
     "@pairjacks/poker-cards": "0.1.0",
     "mobx": "5.15.4",
     "mobx-react": "6.2.2",
-    "poker-messages": "https://github.com/pairjacks/poker-messages#b220ec5acf71d3480665f8709e2f12e4f5cb9ccb",
+    "poker-messages": "https://github.com/pairjacks/poker-messages#60da38f8711475e1320864050f25802c7022a6c8",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.1",
