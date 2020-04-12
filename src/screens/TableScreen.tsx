@@ -31,9 +31,9 @@ const TableScreen: FCWithoutChildren = () => {
 
   return (
     <Container>
-      <Top>
+      <TopRight>
         <ConnectionStatus />
-      </Top>
+      </TopRight>
       {!store.data.table.isStarted && (
         <StartButton onClick={store.onStartGame}>Start Game</StartButton>
       )}
@@ -107,8 +107,11 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Top = styled.div`
-  margin: 2em auto;
+const TopRight = styled.div`
+  display: block;
+  position: absolute;
+  right: 2em;
+  top: 1em;
 `;
 
 const StartButton = styled.button`

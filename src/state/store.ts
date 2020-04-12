@@ -42,15 +42,18 @@ export class Store {
   };
 
   private ws?: WebSocket;
+  private pingIntervalRef?: number;
 
-  connect() {
+  connect = () => {
     this.data.connectionStatus = "connecting";
 
     this.ws = new WebSocket("wss://easy-poker-server.herokuapp.com");
 
     this.ws.addEventListener("open", () => {
       this.data.connectionStatus = "connected";
-      setInterval(() => {
+
+      clearInterval(this.pingIntervalRef);
+      this.pingIntervalRef = setInterval(() => {
         this.ws?.send("PING");
       }, 20000);
 
@@ -63,6 +66,10 @@ export class Store {
     });
 
     this.ws.addEventListener("close", () => {
+      this.data.connectionStatus = "disconnected";
+    });
+
+    this.ws.addEventListener("error", () => {
       this.data.connectionStatus = "disconnected";
     });
 
@@ -93,7 +100,7 @@ export class Store {
           break;
       }
     });
-  }
+  };
 
   onJoinTable = (options: JoinTableOptions) => {
     const joinTableMessage: ClientJoinTableMessage = {

@@ -11,6 +11,9 @@ const ConnectionStatus: FCWithoutChildren = () => {
   return (
     <Container status={store.data.connectionStatus}>
       {store.data.connectionStatus}
+      {store.data.connectionStatus === "disconnected" && (
+        <ReconnectButton onClick={store.connect}>Reconnect</ReconnectButton>
+      )}
     </Container>
   );
 };
@@ -20,6 +23,9 @@ export default observer(ConnectionStatus);
 const Container = observer(styled.div<{
   status: ServerConnectionStatus;
 }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: ${({ status, theme }) => {
     switch (status) {
       case "connected":
@@ -31,3 +37,7 @@ const Container = observer(styled.div<{
     }
   }};
 `);
+
+const ReconnectButton = styled.button`
+  margin: 1em auto;
+`;
