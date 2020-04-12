@@ -8,7 +8,7 @@ import Seat from "../components/Seat";
 
 import type { FCWithoutChildren } from "../types/component";
 import ConnectionStatus from "../components/ConnectionStatus";
-import ChipStack from "../components/ChipStack";
+import ChipBall from "../components/ChipBall";
 
 const TableScreen: FCWithoutChildren = () => {
   const store = useStore();
@@ -40,12 +40,12 @@ const TableScreen: FCWithoutChildren = () => {
       )}
 
       <Pots>
-        <ChipStack chipCount={store.data.table.potChipCount} />
+        <ChipBall chipCount={store.data.table.potChipCount} />
       </Pots>
       {store.data.table.splitPots.map((splitPot) => (
         <Pots>
           <Center>
-            <ChipStack chipCount={splitPot.chipCount} />
+            <ChipBall chipCount={splitPot.chipCount} />
             {`Split Pot: ${splitPot.players.join(", ")}`}
           </Center>
         </Pots>

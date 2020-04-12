@@ -8,7 +8,7 @@ import Card from "./Card";
 import type { Hand, Cards } from "@pairjacks/poker-cards";
 import type { Seat } from "@pairjacks/poker-messages";
 import type { FCWithoutChildren } from "../types/component";
-import ChipStack from "./ChipStack";
+import ChipBall from "./ChipBall";
 
 const urlWithPath = (path: string) =>
   window.location.protocol + "//" + window.location.host + "/" + path;
@@ -74,7 +74,7 @@ const SeatComponent: FCWithoutChildren<{
   return (
     <OuterContainer>
       <Center>
-        <ChipStack chipCount={seat.chipsBetCount} />
+        <ChipBall chipCount={seat.chipsBetCount} />
       </Center>
       <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
         <Item style={{ fontSize: 40 }}>{displayName || "Empty"}</Item>
@@ -102,8 +102,8 @@ const SeatComponent: FCWithoutChildren<{
             <BetButton onClick={onFoldPress}>Fold</BetButton>
           </Item>
         )}
-        <Center style={{ marginTop: 40 }}>
-          <ChipStack chipCount={seat.chipCount} />
+        <Center style={{ marginTop: 0 }}>
+          <ChipBall chipCount={seat.chipCount} />
         </Center>
         {pocketCards && (
           <Item>
@@ -138,7 +138,7 @@ const SeatComponent: FCWithoutChildren<{
 
 export default observer(SeatComponent);
 
-const OuterContainer = styled.div`
+const OuterContainer = styled.ul`
   display: flex;
   flex-direction: column;
   padding: 1em;
@@ -166,6 +166,7 @@ const Item = styled.li`
 const Center = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 4px;
 `;
 
