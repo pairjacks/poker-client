@@ -91,7 +91,7 @@ const TableScreen: FCWithoutChildren = () => {
                 store.data.table?.currentUser.seatToken === s.token &&
                 s.isDealer
               }
-              pocketCards={isCurrentUser ? s.pocketCards : undefined}
+              pocketCards={s.pocketCards}
               hand={isCurrentUser ? currentPlayerHand : undefined}
               onBetPress={store.onPlaceBet}
               onCallPress={store.onCall}
