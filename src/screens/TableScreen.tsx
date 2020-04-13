@@ -159,5 +159,6 @@ const Board = styled.div`
 
 const Seats = styled.div`
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-evenly;
 `;
