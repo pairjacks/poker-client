@@ -142,17 +142,18 @@ const OuterContainer = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1em;
+  padding-inline-start: 0em;
 `;
 
 const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
   position: relative;
   flex: 1 0;
+  width: 14em;
   margin: 1em;
   padding: 1em;
   border: ${({ isCurrentPlayer: isCurrentUser, isTurn, theme }) =>
     isTurn
-      ? `4px solid ${theme.colors.currentTurnAccent}`
+      ? `5px solid ${theme.colors.currentTurnAccent}`
       : `1px solid ${isCurrentUser ? theme.colors.keyline : "transparent"}`};
   list-style-type: none;
   background-color: ${({ isCurrentPlayer, theme }) =>
@@ -193,7 +194,7 @@ const DealerButton = styled.div`
 `;
 
 const BetInputContainer = styled.label`
-  margin: 0 1.2em 0 1em;
+  width: 5em;
 `;
 
 const BetButton = styled.button`
