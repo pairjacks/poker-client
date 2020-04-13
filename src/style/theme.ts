@@ -17,6 +17,7 @@ export const theme = {
     opponentSeatBackground: "lightgrey",
     keyline: "lightgrey",
     currentTurnAccent: "green",
+    chipValue: "white",
   },
 };
 
