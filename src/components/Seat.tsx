@@ -50,15 +50,14 @@ const SeatComponent: FCWithoutChildren<{
 }) => {
   const [betInputValue, setBetInputValue] = useState<string>("");
 
-  const deathText = useMemo(() => {
-    if (isBust) return "Out of the game 😵";
-    if (isFolded) return "Folded 🏳";
-    return "";
-  }, [isBust, isFolded]);
+  const emoji = useMemo(() => {
+    if (isBust) return "😵";
+    if (isFolded) return "🏳";
 
-  const displayName = seat.player?.displayName;
+    return seat.player?.displayName || "";
+  }, [isBust, isFolded, seat.player]);
 
-  if (displayName === undefined) {
+  if (seat.player?.displayName === undefined) {
     const url = urlWithPath(`${tableName}/${seat.token}`);
 
     return (
@@ -78,7 +77,7 @@ const SeatComponent: FCWithoutChildren<{
       </Center>
       <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
         {isDealer && <DealerButton>D</DealerButton>}
-        <Item style={{ fontSize: 40 }}>{displayName || "Empty"}</Item>
+        <Item style={{ fontSize: 40 }}>{emoji || "Empty"}</Item>
         {canBet && (
           <Item>
             <BetInputContainer>
@@ -124,7 +123,6 @@ const SeatComponent: FCWithoutChildren<{
             </PocketCards>
           </Item>
         )}
-        {deathText ? <Item>{deathText}</Item> : null}
         {canDeal ? (
           <Item>
             <DealButton onClick={onDealPress}>Deal</DealButton>
