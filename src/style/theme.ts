@@ -18,6 +18,11 @@ export const theme = {
     keyline: "lightgrey",
     currentTurnAccent: "green",
     chipValue: "white",
+    chipBorder: "black",
+    chip1: "grey",
+    chip5: "red",
+    chip10: "blue",
+    chip25: "green",
   },
 };
 
