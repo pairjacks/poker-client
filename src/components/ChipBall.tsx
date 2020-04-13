@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { observer } from "mobx-react";
 import { FCWithoutChildren } from "../types/component";
+import { useStore } from "../state/store";
 
 const colors = [
   "rgb(0,0,255)", // Blue
@@ -32,7 +33,9 @@ const colors = [
 const ChipBallComponent: FCWithoutChildren<{
   chipCount: number;
 }> = ({ chipCount }) => {
-  const maxChipCount = 400;
+  const store = useStore();
+
+  const maxChipCount = store.data.table?.maxBetChipCount || 1000;
   const colorIndex = Math.floor((chipCount / maxChipCount) * colors.length);
   const size = Math.floor((chipCount / maxChipCount) * 80) + 20;
 
