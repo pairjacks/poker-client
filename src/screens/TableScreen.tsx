@@ -103,7 +103,11 @@ const TableScreen: FCWithoutChildren = () => {
                 s.isDealer
               }
               pocketCards={s.pocketCards}
-              hand={describeHand(s.pocketCards)}
+              hand={
+                s.pocketCards && s.pocketCards.length
+                  ? describeHand(s.pocketCards)
+                  : undefined
+              }
               onBetPress={store.onPlaceBet}
               onCallPress={store.onCall}
               onCheckPress={store.onCheck}
