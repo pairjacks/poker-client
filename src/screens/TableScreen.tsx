@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { extractHand, isSameCard } from "@pairjacks/poker-cards";
+import { extractHand, isSameCard, Cards } from "@pairjacks/poker-cards";
 import styled from "styled-components";
 
 import { useStore } from "../state/store";
@@ -29,6 +29,17 @@ const TableScreen: FCWithoutChildren = () => {
       communityCards: [...store.data.table.communityCards],
     });
   }, [store.data.table]);
+
+  const describeHand = (pocketCards?: Cards) => {
+    if (!store.data.table) return undefined;
+
+    if (!pocketCards) return undefined;
+
+    return extractHand({
+      pocketCards,
+      communityCards: [...store.data.table.communityCards],
+    });
+  };
 
   return (
     <Container>
@@ -92,7 +103,7 @@ const TableScreen: FCWithoutChildren = () => {
                 s.isDealer
               }
               pocketCards={s.pocketCards}
-              hand={s.pocketCards?.length ? currentPlayerHand : undefined}
+              hand={describeHand(s.pocketCards)}
               onBetPress={store.onPlaceBet}
               onCallPress={store.onCall}
               onCheckPress={store.onCheck}
