@@ -35,21 +35,14 @@ const ChipBallComponent: FCWithoutChildren<{
 }> = ({ chipCount }) => {
   const store = useStore();
 
-  const maxChipCount = store.data.table?.maxBetChipCount || 1000;
-  const colorIndex = Math.floor((chipCount / maxChipCount) * colors.length);
-  const size = Math.floor((chipCount / maxChipCount) * 80) + 20;
+  const ratio = chipCount / (store.data.table?.maxBetChipCount || 1000);
+  const color = colors[Math.floor(ratio * colors.length)];
+  const size = Math.floor(ratio * 80) + 20;
 
   return (
     <Container>
-      {chipCount !== 0 && (
-        <Chip
-          style={{
-            backgroundColor: colors[colorIndex],
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-          }}
-        >
+      {chipCount && (
+        <Chip color={color} size={size}>
           {chipCount}
         </Chip>
       )}
@@ -60,19 +53,23 @@ const ChipBallComponent: FCWithoutChildren<{
 export default observer(ChipBallComponent);
 
 const Container = styled.div`
-  display: flex;
   position: relative;
-  width: 100px;
-  height: 100px;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 100px;
+  height: 100px;
   background-color: transparent;
 `;
 
-const Chip = styled.div`
-  display: flex;
+const Chip = styled.div<{ color: string; size: number }>`
   position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.colors.chipValue};
+  background-color: ${({ color }) => color};
 `;

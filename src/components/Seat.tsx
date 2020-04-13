@@ -168,8 +168,8 @@ const Item = styled.li`
 
 const Center = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   margin-bottom: 4px;
 `;
 

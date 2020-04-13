@@ -22,40 +22,22 @@ const ChipStackComponent: FCWithoutChildren<{
       {Array(twentyFiveChipsCount)
         .fill(0)
         .map((_, index) => (
-          <Chip style={{ top: `${-2 * index}px`, backgroundColor: "green" }} />
+          <Chip25 chipIndex={index} />
         ))}
       {Array(tenChipsCount)
         .fill(0)
         .map((_, index) => (
-          <Chip
-            style={{
-              top: `${-2 * index}px`,
-              left: "25px",
-              backgroundColor: "blue",
-            }}
-          />
+          <Chip10 chipIndex={index} stackIndex={1} />
         ))}
       {Array(fiveChipsCount)
         .fill(0)
         .map((_, index) => (
-          <Chip
-            style={{
-              top: `${-2 * index}px`,
-              left: "50px",
-              backgroundColor: "red",
-            }}
-          />
+          <Chip5 chipIndex={index} stackIndex={2} />
         ))}
       {Array(oneChipsCount)
         .fill(0)
         .map((_, index) => (
-          <Chip
-            style={{
-              top: `${-2 * index}px`,
-              left: "75px",
-              backgroundColor: "grey",
-            }}
-          />
+          <Chip1 chipIndex={index} stackIndex={3} />
         ))}
       {chipCount !== 0 && <Count>{chipCount}</Count>}
     </Container>
@@ -71,12 +53,30 @@ const Container = styled.div`
   background-color: transparent;
 `;
 
-const Chip = styled.div`
+const Chip = styled.div<{ chipIndex?: number; stackIndex?: number }>`
   position: absolute;
   width: 20px;
   height: 20px;
-  border-radius: 10px;
-  border: 1px solid black;
+  top: ${({ chipIndex = 0 }) => chipIndex * -2}px;
+  left: ${({ stackIndex = 0 }) => stackIndex * 25}px;
+  border-radius: 50%;
+  border: ${({ theme }) => `1px solid ${theme.colors.chipBorder}`};
+`;
+
+const Chip25 = styled(Chip)`
+  background-color: ${({ theme }) => theme.colors.chip25};
+`;
+
+const Chip10 = styled(Chip)`
+  background-color: ${({ theme }) => theme.colors.chip10};
+`;
+
+const Chip5 = styled(Chip)`
+  background-color: ${({ theme }) => theme.colors.chip5};
+`;
+
+const Chip1 = styled(Chip)`
+  background-color: ${({ theme }) => theme.colors.chip1};
 `;
 
 const Count = styled.div`
