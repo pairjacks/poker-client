@@ -12,7 +12,7 @@ export default {
 
 export const chipBall = () => {
   const chipCount = number("chipCount", 5);
-  const maxBetChipCount = number("maxBetChipCount", 0);
+  const maxBetChipCount = number("store.data.table.maxBetChipCount", 0);
   const { store, Component } = withStore(() => (
     <ChipBall chipCount={chipCount} />
   ));
