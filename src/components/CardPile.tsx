@@ -20,6 +20,7 @@ const CardPile: FunctionComponent<{ children: CardElement[] }> = ({
     enter: { transform: "translate3d(0, 0px, 0)", opacity: 1 },
     leave: { transform: outTransform(), opacity: 0 },
     config: config.gentle,
+    trail: 200,
   });
 
   return (
@@ -39,9 +40,12 @@ export default CardPile;
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const CardContainer = styled(animated.div)`
+  margin-bottom: 0.4em;
+
   :not(:last-of-type) {
     margin-right: 0.4em;
   }

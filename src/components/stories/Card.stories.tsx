@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { withKnobs, select, boolean, number } from "@storybook/addon-knobs";
+import { withKnobs, select, boolean, button } from "@storybook/addon-knobs";
 import { Face, Suit, createDeck } from "@pairjacks/poker-cards";
 
 import Card, { CardOrientation } from "../Card";
 import CardPile from "../CardPile";
+import { clamp } from "../../lib/util/number";
 
 export default {
   title: "Cards",
@@ -31,13 +32,31 @@ export const card = () => {
   );
 };
 
-const Pile = ({ num }: { num: number }) => {
+export const Pile = () => {
+  const clampNum = clamp(1, 52);
   const deck = useRef([...createDeck()].sort(() => -1 + Math.random() * 2));
+  const [num, setNum] = useState(3);
   const [cards, setCards] = useState(deck.current.slice(0, num));
 
   useEffect(() => {
     setCards(deck.current.slice(0, num));
   }, [num]);
+
+  button("Add card", () => {
+    setNum((curr) => clampNum(curr + 1));
+  });
+
+  button("Remove card", () => {
+    setNum((curr) => clampNum(curr - 1));
+  });
+
+  button("Add 3 cards", () => {
+    setNum((curr) => clampNum(curr + 3));
+  });
+
+  button("Remove 3 cards", () => {
+    setNum((curr) => clampNum(curr - 3));
+  });
 
   return (
     <CardPile>
@@ -46,15 +65,4 @@ const Pile = ({ num }: { num: number }) => {
       ))}
     </CardPile>
   );
-};
-
-export const cardPile = () => {
-  const numCards = number("Num cards", 3, {
-    min: 1,
-    max: 26,
-    range: true,
-    step: 1,
-  });
-
-  return <Pile num={Math.round(numCards)} />;
 };
