@@ -8,9 +8,10 @@ import {
 } from "@storybook/addon-knobs";
 import { Face, Suit, createDeck } from "@pairjacks/poker-cards";
 
+import { clamp } from "../../lib/util/number";
+import { withStore } from "../../lib/storybookHelpers";
 import Card, { CardOrientation } from "../Card";
 import CardPile from "../CardPile";
-import { clamp } from "../../lib/util/number";
 
 export default {
   title: "Cards",
@@ -27,15 +28,22 @@ export const card = () => {
     undefined
   );
   const highlight = boolean("Highlight", false);
-
-  return (
+  const { store, Component } = withStore(() => (
     <Card
       face={face}
       suit={suit}
       orientation={orientation}
       highlight={highlight}
     />
-  );
+  ));
+
+  Object.defineProperty(store.data, "table", {
+    get() {
+      return { highlightRelevantCards: true };
+    },
+  });
+
+  return Component;
 };
 
 export const Pile = () => {
