@@ -1,23 +1,50 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useMemo } from "react";
 import { observer } from "mobx-react";
+import { animated, useSpring, config } from "react-spring";
+import styled, { css, useTheme } from "styled-components";
 
+import { clamp } from "../lib/util/number";
 import { getColorScaler } from "../lib/util/color";
 import { useStore } from "../state/store";
 
 import type { FCWithoutChildren } from "../types/component";
+import AnimatedNumber from "./AnimatedNumber";
+
+const clampRatio = clamp(0, 1);
 
 const ChipBallComponent: FCWithoutChildren<{
   chipCount: number;
-}> = ({ chipCount }) => {
+  minSize?: number;
+  maxSize?: number;
+}> = ({ chipCount, minSize = 30, maxSize = 100 }) => {
   const store = useStore();
+  const theme = useTheme();
+  const ratio = clampRatio(
+    chipCount / (store.data.table?.maxBetChipCount || 1000)
+  );
+  const sizeScale = (minSize + ratio * (maxSize - minSize)) / maxSize;
+
+  const colorScaler = useMemo(
+    () => getColorScaler(theme.colors.chipValueScale),
+    [theme.colors.chipValueScale]
+  );
+
+  const colorSpring = useSpring({ backgroundColor: colorScaler(ratio) });
+
+  const sizeSpring = useSpring({
+    transform: `scale(${sizeScale})`,
+    config: config.gentle,
+  });
 
   return (
-    <Container>
+    <Container size={maxSize}>
       {!!chipCount && (
-        <Ball ratio={chipCount / (store.data.table?.maxBetChipCount || 1000)}>
-          {chipCount}
-        </Ball>
+        <>
+          <Ball style={{ ...colorSpring, ...sizeSpring }}></Ball>
+          <ValueContainer>
+            <AnimatedNumber value={chipCount} />
+          </ValueContainer>
+        </>
       )}
     </Container>
   );
@@ -25,25 +52,29 @@ const ChipBallComponent: FCWithoutChildren<{
 
 export default observer(ChipBallComponent);
 
-const Container = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  background-color: transparent;
+const absoluteFill = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
-const Ball = styled.div<{ ratio: number }>`
+const Container = styled.div<{ size: number }>`
   position: relative;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+`;
+
+const Ball = styled(animated.div)`
+  ${absoluteFill}
+  border-radius: 50%;
+`;
+
+const ValueContainer = styled(animated.div)`
+  ${absoluteFill}
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ ratio }) => Math.floor(ratio * 80) + 20}px;
-  height: ${({ ratio }) => Math.floor(ratio * 80) + 20}px;
-  border-radius: 50%;
   color: ${({ theme }) => theme.colors.chipValueText};
-  background-color: ${({ theme, ratio }) =>
-    getColorScaler(theme.colors.chipValueScale)(ratio)};
 `;
