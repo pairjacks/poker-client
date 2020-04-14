@@ -1,8 +1,10 @@
 import React from "react";
+import { useSpring, config, animated } from "react-spring";
 import { Face, Suit } from "@pairjacks/poker-cards";
 
 import type { FCWithoutChildren } from "../types/component";
 import styled from "styled-components";
+import { roundCorners, absoluteFill } from "../style/partials";
 
 const faceCharacterMap: { [key in Face]: string } = {
   [Face.Two]: "2",
@@ -27,37 +29,90 @@ const suitCharacterMap: { [key in Suit]: string } = {
   [Suit.Spades]: "♠",
 };
 
+export enum CardOrientation {
+  FaceUp = "FaceUp",
+  FaceDown = "FaceDown",
+}
+
 const Card: FCWithoutChildren<{
-  face: Face;
-  suit: Suit;
+  face?: Face;
+  suit?: Suit;
+  orientation?: CardOrientation;
   highlight?: boolean;
-}> = ({ face, suit, highlight = false }) => (
-  <Container highlight={highlight}>
-    <FaceChar>{faceCharacterMap[face]}</FaceChar>
-    <SuitChar suit={suit}>{suitCharacterMap[suit]}</SuitChar>
-  </Container>
-);
+}> = ({
+  face,
+  suit,
+  orientation = CardOrientation.FaceUp,
+  highlight = false,
+}) => {
+  const showFaceUp = !!face && !!suit && orientation === CardOrientation.FaceUp;
+  const backSpring = useSpring({ opacity: showFaceUp ? 0 : 1 });
+  const charSpring = useSpring({
+    scale: showFaceUp ? 1 : 0,
+    opacity: showFaceUp ? 1 : 0,
+    config: config.gentle,
+  });
+
+  return (
+    <Container highlight={highlight}>
+      {showFaceUp ? null : <Back style={backSpring} />}
+      {showFaceUp && face ? (
+        <FaceChar style={charSpring}>{faceCharacterMap[face]}</FaceChar>
+      ) : null}
+      {showFaceUp && suit ? (
+        <SuitChar suit={suit} style={charSpring}>
+          {suitCharacterMap[suit]}
+        </SuitChar>
+      ) : null}
+    </Container>
+  );
+};
 
 export default Card;
 
 const Container = styled.div<{ highlight: boolean }>`
+  ${roundCorners} /* stylelint-disable-line value-keyword-case */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2.6em;
-  margin: 0.2em;
-  padding: 0.4em 0;
-  border-bottom: 1px solid
-    ${({ highlight }) => (highlight ? "black" : "transparent")};
+  height: 2em;
+  overflow: hidden;
+  font-size: 1.2rem;
+  outline: 1px solid
+    ${({ highlight, theme }) =>
+      highlight ? theme.colors.playingCardHighlight : "none"};
   background-color: ${({ theme }) => theme.colors.playingCardBackground};
 `;
 
-const FaceChar = styled.div`
-  margin-right: 0.2em;
+const Back = styled(animated.div)`
+  ${absoluteFill} /* stylelint-disable-line value-keyword-case */
+  z-index: 2;
+  background-color: ${({ theme }) => theme.colors.playingCardBack};
+
+  ::before {
+    display: block;
+    position: absolute;
+    width: 2.6em;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-1.3em) rotate(-36deg);
+    background-color: ${({ theme }) => theme.colors.playingCardBackAccent};
+    content: " ";
+  }
 `;
 
-const SuitChar = styled.div<{ suit: Suit }>`
+const FaceChar = styled(animated.div)`
+  position: relative;
+  margin-right: 0.2em;
+  z-index: 1;
+`;
+
+const SuitChar = styled(animated.div)<{ suit: Suit }>`
+  position: relative;
+  z-index: 1;
   color: ${({ suit, theme }) =>
     [Suit.Hearts, Suit.Diamonds].includes(suit)
       ? theme.colors.playingCardSuitRed

@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import { observer } from "mobx-react";
 import { animated, useSpring, config } from "react-spring";
-import styled, { css, useTheme } from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 import { clamp } from "../lib/util/number";
 import { getColorScaler } from "../lib/util/color";
 import { useStore } from "../state/store";
+import { absoluteFill } from "../style/partials";
 import AnimatedNumber from "./AnimatedNumber";
 
 import type { FCWithoutChildren } from "../types/component";
@@ -51,14 +52,6 @@ const ChipBall: FCWithoutChildren<{
 };
 
 export default observer(ChipBall);
-
-const absoluteFill = css`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`;
 
 const Container = styled.div<{ size: number }>`
   position: relative;

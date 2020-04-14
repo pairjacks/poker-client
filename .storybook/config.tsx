@@ -13,7 +13,7 @@ addDecorator((s) => (
   </>
 ));
 addDecorator((s) => <Padded>{s()}</Padded>);
-addDecorator(withThemesProvider([lightTheme, darkTheme]));
+addDecorator(withThemesProvider([darkTheme, lightTheme]));
 
 const Padded = styled.div`
   padding: 2em;
