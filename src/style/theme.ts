@@ -1,7 +1,7 @@
-export const theme = {
+const baseTheme = {
   name: "light",
   fonts: {
-    bodyText: "system-ui, sans-serif",
+    bodyText: "Quicksand, system-ui, sans-serif",
   },
   colors: {
     bodyText: "black",
@@ -52,9 +52,25 @@ export const theme = {
   },
 };
 
-export const defaultTheme: Theme = theme;
+export type Theme = typeof baseTheme;
 
-export type Theme = typeof theme;
+export const lightTheme: Theme = baseTheme;
+
+export const darkTheme: Theme = {
+  ...baseTheme,
+  name: "dark",
+  colors: {
+    ...baseTheme.colors,
+    background: "#222",
+    bodyText: "white",
+    playingCardSuitBlack: "white",
+    playerSeatBackground: "#111",
+    opponentSeatBackground: "darkslategray",
+    chipValueScale: ["blue", "red", "black"],
+  },
+};
+
+export const defaultTheme = lightTheme;
 
 export interface ThemeProps {
   theme?: Theme;

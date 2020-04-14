@@ -14,7 +14,7 @@ const ChipBallComponent: FCWithoutChildren<{
 
   return (
     <Container>
-      {chipCount !== 0 && (
+      {!!chipCount && (
         <Ball ratio={chipCount / (store.data.table?.maxBetChipCount || 1000)}>
           {chipCount}
         </Ball>

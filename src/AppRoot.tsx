@@ -29,10 +29,5 @@ const AppRoot: FCWithoutChildren = () => {
 export default observer(AppRoot);
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
-  color: ${({ theme }) => theme.colors.bodyText};
-  font-family: ${({ theme }) => theme.fonts.bodyText};
-  background-color: ${({ theme }) => theme.colors.background};
 `;

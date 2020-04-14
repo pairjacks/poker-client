@@ -18,9 +18,13 @@ export default createGlobalStyle`
     padding: 0;
   }
 
-  #app-root {
+  #root {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     -webkit-overflow-scrolling: touch;
+    color: ${({ theme }) => theme.colors.bodyText};
+    font-family: ${({ theme }) => theme.fonts.bodyText};
+    background-color: ${({ theme }) => theme.colors.background};
   }
 `;
