@@ -6,13 +6,13 @@ import styled, { css, useTheme } from "styled-components";
 import { clamp } from "../lib/util/number";
 import { getColorScaler } from "../lib/util/color";
 import { useStore } from "../state/store";
+import AnimatedNumber from "./AnimatedNumber";
 
 import type { FCWithoutChildren } from "../types/component";
-import AnimatedNumber from "./AnimatedNumber";
 
 const clampRatio = clamp(0, 1);
 
-const ChipBallComponent: FCWithoutChildren<{
+const ChipBall: FCWithoutChildren<{
   chipCount: number;
   minSize?: number;
   maxSize?: number;
@@ -50,7 +50,7 @@ const ChipBallComponent: FCWithoutChildren<{
   );
 };
 
-export default observer(ChipBallComponent);
+export default observer(ChipBall);
 
 const absoluteFill = css`
   position: absolute;
