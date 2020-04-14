@@ -1,6 +1,9 @@
 import React, { Children } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { animated, config, useTransition } from "react-spring";
+
+import { absoluteFill } from "../style/partials";
+import { CardPlaceholder } from "./Card";
 
 import type { FunctionComponent } from "react";
 import type { CardElement } from "./Card";
@@ -8,12 +11,13 @@ import type { CardElement } from "./Card";
 const outTransform = () =>
   `translate3d(0, ${Math.random() < 0.5 ? -40 : 40}%, 0)`;
 
-const CardPile: FunctionComponent<{ children: CardElement[] }> = ({
-  children,
-}) => {
-  const childArray = Children.toArray(children).filter(
-    (child) => !!child
-  ) as CardElement[];
+const CardPile: FunctionComponent<{
+  children: CardElement[];
+  slots?: number;
+}> = ({ children, slots = 0 }) => {
+  const childArray = Children.toArray(children)
+    .filter((child) => !!child)
+    .splice(slots > 0 ? -slots : 0) as CardElement[];
 
   const springs = useTransition(childArray, (child) => child?.key || "", {
     from: { transform: outTransform(), opacity: 0 },
@@ -23,30 +27,58 @@ const CardPile: FunctionComponent<{ children: CardElement[] }> = ({
     trail: 200,
   });
 
+  const cards = springs.map(({ item, key, props }) => (
+    <CardContainer style={props} key={key}>
+      {item}
+    </CardContainer>
+  ));
+
+  if (slots <= 0) return <Container>{cards}</Container>;
+
   return (
     <Container>
-      {springs.map(({ item, key, props }) => {
-        return (
-          <CardContainer key={key} style={props}>
-            {item}
-          </CardContainer>
-        );
-      })}
+      <CardsContainerAbs>{cards}</CardsContainerAbs>
+      <SlotsContainer>
+        {Array(slots)
+          .fill(0)
+          .map((_, i) => (
+            <Slot key={`placeholder-${i}`} />
+          ))}
+      </SlotsContainer>
     </Container>
   );
 };
 
 export default CardPile;
 
+const cardSpacing = css`
+  margin: 0.2em;
+`;
+
 const Container = styled.div`
   display: flex;
+  position: relative;
   flex-wrap: wrap;
 `;
 
 const CardContainer = styled(animated.div)`
-  margin-bottom: 0.4em;
+  ${cardSpacing}/* stylelint-disable-line value-keyword-case */
+`;
 
-  :not(:last-of-type) {
-    margin-right: 0.4em;
-  }
+const CardsContainerAbs = styled.div`
+  ${absoluteFill} /* stylelint-disable-line value-keyword-case */
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 2;
+`;
+
+const SlotsContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 1;
+`;
+
+const Slot = styled(CardPlaceholder)`
+  ${cardSpacing}/* stylelint-disable-line value-keyword-case */
 `;

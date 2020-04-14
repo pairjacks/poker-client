@@ -16,12 +16,12 @@ const baseTheme = {
     playingCardSuitRed: "red",
     playingCardSuitBlack: "black",
     playingCardHighlight: "rgba(10, 10, 255, 0.4)",
+    playingCardPlaceholderBorder: "#efefef",
     playerSeatBackground: "white",
     opponentSeatBackground: "lightgrey",
     keyline: "lightgrey",
     currentTurnAccent: "green",
     chipValueText: "white",
-    // chipValueScale: ["blue", "red", "black"],
     chipValueScale: [
       "rgb(0,0,255)", // Blue
       "rgb(21,1,233)",
@@ -64,7 +64,7 @@ export const darkTheme: Theme = {
   name: "dark",
   colors: {
     ...baseTheme.colors,
-    background: "#222",
+    background: "#181818",
     bodyText: "white",
     playerSeatBackground: "#111",
     opponentSeatBackground: "darkslategray",
@@ -75,6 +75,7 @@ export const darkTheme: Theme = {
     playingCardFaceValue: "white",
     playingCardSuitBlack: "white",
     playingCardHighlight: "rgba(255, 255, 255, 0.6)",
+    playingCardPlaceholderBorder: "#333",
   },
 };
 

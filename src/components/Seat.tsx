@@ -113,7 +113,7 @@ const SeatComponent: FCWithoutChildren<{
         {pocketCards && (
           <Item>
             <PocketCards>
-              <CardPile>
+              <CardPile slots={2}>
                 {pocketCards.map(([face, suit]) => (
                   <Card
                     face={face}

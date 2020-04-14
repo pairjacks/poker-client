@@ -63,7 +63,7 @@ const TableScreen: FCWithoutChildren = () => {
         </Pots>
       ))}
       <Board>
-        <CardPile>
+        <CardPile slots={5}>
           {store.data.table.communityCards.map(([face, suit]) => (
             <Card
               face={face}
