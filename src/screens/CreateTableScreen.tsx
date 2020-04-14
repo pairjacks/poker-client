@@ -32,6 +32,7 @@ const CreateTableScreen: FCWithoutChildren<{
     numberOfSeats: 5,
     smallBlind: 1,
     startingChipCount: 100,
+    highlightRelevantCards: false,
   });
 
   const handleSubmit = useCallback<FormEventHandler>(
@@ -69,6 +70,16 @@ const CreateTableScreen: FCWithoutChildren<{
     []
   );
 
+  const handleHighlightRelevantCardsChange = useCallback<InputChangeHandler>(
+    (event) =>
+      dispatch(
+        updateOptionsAction({
+          highlightRelevantCards: event.target.checked,
+        })
+      ),
+    []
+  );
+
   return (
     <Container>
       <ConnectionStatus />
@@ -97,6 +108,16 @@ const CreateTableScreen: FCWithoutChildren<{
           <FormInput
             value={state.startingChipCount}
             onChange={handleChipCountChange}
+          />
+        </FormItem>
+        <FormItem>
+          Highlight Relevant Cards:
+          <FormCheckBox
+            type="checkbox"
+            name="highlightRelevantCards"
+            value="Highlight Relevant Cards:"
+            checked={state.highlightRelevantCards}
+            onChange={handleHighlightRelevantCardsChange}
           />
         </FormItem>
         <SubmitButton disabled={!state.tableName}>Submit</SubmitButton>
@@ -128,6 +149,10 @@ const FormItem = styled.label`
 `;
 
 const FormInput = styled.input.attrs(() => ({ type: "text" }))`
+  margin-left: 1em;
+`;
+
+const FormCheckBox = styled.input.attrs(() => ({ type: "checkbox" }))`
   margin-left: 1em;
 `;
 

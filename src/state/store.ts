@@ -27,6 +27,7 @@ export interface CreateTableOptions {
   numberOfSeats: number;
   startingChipCount: number;
   smallBlind: number;
+  highlightRelevantCards: boolean;
 }
 
 export type ServerConnectionStatus =

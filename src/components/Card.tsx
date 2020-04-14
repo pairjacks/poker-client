@@ -5,6 +5,7 @@ import { Face, Suit } from "@pairjacks/poker-cards";
 import type { FCWithoutChildren } from "../types/component";
 import styled from "styled-components";
 import { roundCorners, absoluteFill } from "../style/partials";
+import { useStore } from "../state/store";
 
 const faceCharacterMap: { [key in Face]: string } = {
   [Face.Two]: "2",
@@ -45,6 +46,7 @@ const Card: FCWithoutChildren<{
   orientation = CardOrientation.FaceUp,
   highlight = false,
 }) => {
+  const store = useStore();
   const showFaceUp = !!face && !!suit && orientation === CardOrientation.FaceUp;
   const backSpring = useSpring({ opacity: showFaceUp ? 0 : 1 });
   const charSpring = useSpring({
@@ -54,7 +56,9 @@ const Card: FCWithoutChildren<{
   });
 
   return (
-    <Container highlight={highlight}>
+    <Container
+      highlight={store.data.table?.highlightRelevantCards ? highlight : false}
+    >
       {showFaceUp ? null : <Back style={backSpring} />}
       {showFaceUp && face ? (
         <FaceChar style={charSpring}>{faceCharacterMap[face]}</FaceChar>
