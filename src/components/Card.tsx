@@ -3,7 +3,7 @@ import { useSpring, config, animated } from "react-spring";
 import { Face, Suit } from "@pairjacks/poker-cards";
 
 import type { FCWithoutChildren } from "../types/component";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { roundCorners, absoluteFill } from "../style/partials";
 import { useStore } from "../state/store";
 
@@ -74,16 +74,26 @@ const Card: FCWithoutChildren<{
 
 export default memo(Card);
 
+const cardDimensions = css`
+  width: 3.2rem;
+  height: 2.4rem;
+`;
+
+export const CardPlaceholder = styled.div`
+  ${roundCorners} /* stylelint-disable-line value-keyword-case */
+  ${cardDimensions} /* stylelint-disable-line value-keyword-case */
+  border: 1px solid ${({ theme }) => theme.colors.playingCardPlaceholderBorder};
+`;
+
 export type CardElement = ReturnType<typeof Card>;
 
 const Container = styled.div<{ highlight: boolean }>`
   ${roundCorners} /* stylelint-disable-line value-keyword-case */
+  ${cardDimensions} /* stylelint-disable-line value-keyword-case */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.6em;
-  height: 2em;
   overflow: hidden;
   font-size: 1.2rem;
   outline: 1px solid

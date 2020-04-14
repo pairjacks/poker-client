@@ -1,5 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { withKnobs, select, boolean, button } from "@storybook/addon-knobs";
+import {
+  withKnobs,
+  select,
+  boolean,
+  number,
+  button,
+} from "@storybook/addon-knobs";
 import { Face, Suit, createDeck } from "@pairjacks/poker-cards";
 
 import Card, { CardOrientation } from "../Card";
@@ -42,6 +48,12 @@ export const Pile = () => {
     setCards(deck.current.slice(0, num));
   }, [num]);
 
+  const slots = number("Slots", 0, {
+    min: 0,
+    max: 20,
+    range: true,
+  });
+
   button("Add card", () => {
     setNum((curr) => clampNum(curr + 1));
   });
@@ -60,7 +72,7 @@ export const Pile = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <CardPile>
+      <CardPile slots={slots}>
         {cards.map(([face, suit], index) => (
           <Card face={face} suit={suit} key={[face, suit].join("")} />
         ))}
