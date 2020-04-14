@@ -3,7 +3,7 @@ import { addDecorator } from "@storybook/react";
 import { withThemesProvider } from "storybook-addon-styled-component-theme";
 
 import GlobalStyle from "../src/style/GlobalStyle";
-import { lightTheme } from "../src/style/theme";
+import { lightTheme, darkTheme } from "../src/style/theme";
 
 addDecorator((s) => (
   <>
@@ -11,4 +11,4 @@ addDecorator((s) => (
     {s()}
   </>
 ));
-addDecorator(withThemesProvider([lightTheme]));
+addDecorator(withThemesProvider([lightTheme, darkTheme]));

@@ -56,6 +56,20 @@ export type Theme = typeof baseTheme;
 
 export const lightTheme: Theme = baseTheme;
 
+export const darkTheme: Theme = {
+  ...baseTheme,
+  name: "dark",
+  colors: {
+    ...baseTheme.colors,
+    background: "#222",
+    bodyText: "white",
+    playingCardSuitBlack: "white",
+    playerSeatBackground: "#111",
+    opponentSeatBackground: "darkslategray",
+    chipValueScale: ["blue", "red", "black"],
+  },
+};
+
 export const defaultTheme = lightTheme;
 
 export interface ThemeProps {
