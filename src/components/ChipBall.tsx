@@ -67,12 +67,12 @@ const Container = styled.div<{ size: number }>`
 `;
 
 const Ball = styled(animated.div)`
-  ${absoluteFill}
+  ${absoluteFill} /* stylelint-disable-line value-keyword-case */
   border-radius: 50%;
 `;
 
 const ValueContainer = styled(animated.div)`
-  ${absoluteFill}
+  ${absoluteFill} /* stylelint-disable-line value-keyword-case */
   display: flex;
   align-items: center;
   justify-content: center;
