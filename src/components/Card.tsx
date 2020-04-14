@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSpring, config, animated } from "react-spring";
 import { Face, Suit } from "@pairjacks/poker-cards";
 
@@ -68,7 +68,9 @@ const Card: FCWithoutChildren<{
   );
 };
 
-export default Card;
+export default memo(Card);
+
+export type CardElement = ReturnType<typeof Card>;
 
 const Container = styled.div<{ highlight: boolean }>`
   ${roundCorners} /* stylelint-disable-line value-keyword-case */
