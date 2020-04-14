@@ -3,12 +3,13 @@ import { extractHand, isSameCard, Cards } from "@pairjacks/poker-cards";
 import styled from "styled-components";
 
 import { useStore } from "../state/store";
-import Card from "../components/Card";
+import ConnectionStatus from "../components/ConnectionStatus";
 import Seat from "../components/Seat";
+import ChipBall from "../components/ChipBall";
+import CardPile from "../components/CardPile";
+import Card from "../components/Card";
 
 import type { FCWithoutChildren } from "../types/component";
-import ConnectionStatus from "../components/ConnectionStatus";
-import ChipBall from "../components/ChipBall";
 
 const TableScreen: FCWithoutChildren = () => {
   const store = useStore();
@@ -62,18 +63,20 @@ const TableScreen: FCWithoutChildren = () => {
         </Pots>
       ))}
       <Board>
-        {store.data.table.communityCards.map(([face, suit]) => (
-          <Card
-            face={face}
-            suit={suit}
-            highlight={
-              !!currentPlayerHand?.rankCards.find((card) =>
-                isSameCard(card, [face, suit])
-              )
-            }
-            key={`${face}${suit}`}
-          />
-        ))}
+        <CardPile>
+          {store.data.table.communityCards.map(([face, suit]) => (
+            <Card
+              face={face}
+              suit={suit}
+              highlight={
+                !!currentPlayerHand?.rankCards.find((card) =>
+                  isSameCard(card, [face, suit])
+                )
+              }
+              key={`${face}${suit}`}
+            />
+          ))}
+        </CardPile>
       </Board>
       <Seats>
         {store.data.table.seats.map((s) => {

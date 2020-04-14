@@ -59,10 +59,12 @@ export const Pile = () => {
   });
 
   return (
-    <CardPile>
-      {cards.map(([face, suit], index) => (
-        <Card face={face} suit={suit} key={[face, suit].join("")} />
-      ))}
-    </CardPile>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <CardPile>
+        {cards.map(([face, suit], index) => (
+          <Card face={face} suit={suit} key={[face, suit].join("")} />
+        ))}
+      </CardPile>
+    </div>
   );
 };

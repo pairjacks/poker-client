@@ -4,11 +4,12 @@ import styled from "styled-components";
 import { isSameCard, describeHand } from "@pairjacks/poker-cards";
 
 import Card from "./Card";
+import ChipBall from "./ChipBall";
+import CardPile from "./CardPile";
 
 import type { Hand, Cards } from "@pairjacks/poker-cards";
 import type { Seat } from "@pairjacks/poker-messages";
 import type { FCWithoutChildren } from "../types/component";
-import ChipBall from "./ChipBall";
 
 const urlWithPath = (path: string) =>
   window.location.protocol + "//" + window.location.host + "/" + path;
@@ -112,18 +113,20 @@ const SeatComponent: FCWithoutChildren<{
         {pocketCards && (
           <Item>
             <PocketCards>
-              {pocketCards.map(([face, suit]) => (
-                <Card
-                  face={face}
-                  suit={suit}
-                  highlight={
-                    !!hand?.rankCards.find((card) =>
-                      isSameCard(card, [face, suit])
-                    )
-                  }
-                  key={`${face}${suit}`}
-                />
-              ))}
+              <CardPile>
+                {pocketCards.map(([face, suit]) => (
+                  <Card
+                    face={face}
+                    suit={suit}
+                    highlight={
+                      !!hand?.rankCards.find((card) =>
+                        isSameCard(card, [face, suit])
+                      )
+                    }
+                    key={`${face}${suit}`}
+                  />
+                ))}
+              </CardPile>
             </PocketCards>
           </Item>
         )}
@@ -178,7 +181,6 @@ const Center = styled.div`
 const PocketCards = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 4px;
 `;
 
 const DealerButton = styled.div`
