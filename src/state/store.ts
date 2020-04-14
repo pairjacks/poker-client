@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { observable } from "mobx";
-import { isServerMessage } from "@pairjacks/poker-messages";
+import {
+  isServerMessage,
+  ClientChangeDisplayNameMessage,
+} from "@pairjacks/poker-messages";
 import type {
   LimitedTable,
   ClientJoinTableMessage,
@@ -89,7 +92,7 @@ export class Store {
       }
 
       switch (message.type) {
-        case "table-state":
+        case "server/table-state":
           this.data.table = message.table;
           if (message.table && window.location.pathname === "/") {
             window.history.pushState(
@@ -131,6 +134,23 @@ export class Store {
 
     const startGameMessage: ClientStartGameMessage = {
       type: "client/start-game",
+      tableName,
+      seatToken,
+    };
+
+    this.sendMessage(startGameMessage);
+  };
+
+  onChangeDisplayName = () => {
+    const tableName = this.data.table?.name;
+    const seatToken = this.data.table?.currentUser.seatToken;
+
+    if (!tableName || !seatToken) {
+      return;
+    }
+
+    const startGameMessage: ClientChangeDisplayNameMessage = {
+      type: "client/change-display-name",
       tableName,
       seatToken,
     };

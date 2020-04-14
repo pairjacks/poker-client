@@ -25,6 +25,7 @@ const SeatComponent: FCWithoutChildren<{
   canBet: boolean;
   hand?: Hand;
   pocketCards?: Cards;
+  onDisplayNamePress?: () => unknown;
   onDealPress: () => unknown;
   onBetPress: (value: number) => unknown;
   onCheckPress: () => unknown;
@@ -42,6 +43,7 @@ const SeatComponent: FCWithoutChildren<{
   canBet,
   hand,
   pocketCards,
+  onDisplayNamePress,
   onBetPress,
   onCallPress,
   onCheckPress,
@@ -54,10 +56,10 @@ const SeatComponent: FCWithoutChildren<{
     if (isBust) return "😵";
     if (isFolded) return "🏳";
 
-    return seat.player?.displayName || "";
-  }, [isBust, isFolded, seat.player]);
+    return seat.displayName;
+  }, [isBust, isFolded, seat.displayName]);
 
-  if (seat.player?.displayName === undefined) {
+  if (seat.isEmpty) {
     const url = urlWithPath(`${tableName}/${seat.token}`);
 
     return (
@@ -77,7 +79,9 @@ const SeatComponent: FCWithoutChildren<{
       </Center>
       <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
         {isDealer && <DealerButton>D</DealerButton>}
-        <Item style={{ fontSize: 40 }}>{emoji || "Empty"}</Item>
+        <Item onClick={onDisplayNamePress} style={{ fontSize: 40 }}>
+          {emoji}
+        </Item>
         {canBet && (
           <Item>
             <BetInputContainer>
@@ -140,7 +144,7 @@ const OuterContainer = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-inline-start: 0em;
+  padding-inline-start: 0;
 `;
 
 const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`

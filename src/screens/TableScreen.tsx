@@ -108,6 +108,11 @@ const TableScreen: FCWithoutChildren = () => {
                   ? describeHand(s.pocketCards)
                   : undefined
               }
+              onDisplayNamePress={
+                isCurrentUser && !s.isFolded && !s.isBust
+                  ? store.onChangeDisplayName
+                  : undefined
+              }
               onBetPress={store.onPlaceBet}
               onCallPress={store.onCall}
               onCheckPress={store.onCheck}
