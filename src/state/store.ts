@@ -100,18 +100,7 @@ export class Store {
 
       switch (message.type) {
         case "server/table-state":
-          this.data.table = message.table;
-          if (
-            message.table &&
-            (window.location.pathname === "/" ||
-              window.location.pathname === `/${message.table.name}`)
-          ) {
-            window.history.pushState(
-              "page2",
-              "Title",
-              `${message.table.name}/${message.table.currentUser.seatToken}`
-            );
-          }
+          this.updateTableState(message.table);
           break;
       }
     });
@@ -119,16 +108,36 @@ export class Store {
 
   private requestSeatToken = async (tableName: string) => {
     try {
-      const response = await fetch(`${REST_URL}/seat_token/${tableName}`);
+      const response = await fetch(`${REST_URL}/join/${tableName}`, {
+        method: "POST",
+      });
       const { seatToken } = await response.json();
 
       if (!seatToken) {
         throw new Error("InvalidResponse");
       }
 
-      this.onJoinTable({ tableName, seatToken });
+      this.onJoinTable({
+        tableName,
+        seatToken,
+      });
     } catch (e) {
       // TODO Handle Error
+    }
+  };
+
+  private updateTableState = (table?: LimitedTable) => {
+    this.data.table = table;
+    if (
+      table &&
+      (window.location.pathname === "/" ||
+        window.location.pathname === `/${table.name}`)
+    ) {
+      window.history.pushState(
+        "page2",
+        "Title",
+        `${table.name}/${table.currentUser.seatToken}`
+      );
     }
   };
 
