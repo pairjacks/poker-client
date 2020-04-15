@@ -40,6 +40,12 @@ interface AppState {
   table?: LimitedTable;
 }
 
+const WS_URL = "wss://easy-poker-server.herokuapp.com";
+const REST_URL = "https://easy-poker-server.herokuapp.com";
+
+// const WS_URL = "ws://localhost:8080";
+// const REST_URL = "http://localhost:8080";
+
 export class Store {
   @observable data: AppState = {
     connectionStatus: "disconnected",
@@ -51,8 +57,7 @@ export class Store {
   connect = () => {
     this.data.connectionStatus = "connecting";
 
-    this.ws = new WebSocket("wss://easy-poker-server.herokuapp.com");
-    // this.ws = new WebSocket("ws://localhost:8080");
+    this.ws = new WebSocket(WS_URL);
 
     this.ws.addEventListener("open", () => {
       this.data.connectionStatus = "connected";
@@ -67,6 +72,7 @@ export class Store {
       const tableName = pathnameParts[1];
       const seatToken = pathnameParts[2];
 
+      if (tableName && !seatToken) this.requestSeatToken(tableName);
       if (tableName && seatToken) this.onJoinTable({ tableName, seatToken });
     });
 
@@ -95,7 +101,11 @@ export class Store {
       switch (message.type) {
         case "server/table-state":
           this.data.table = message.table;
-          if (message.table && window.location.pathname === "/") {
+          if (
+            message.table &&
+            (window.location.pathname === "/" ||
+              window.location.pathname === `/${message.table.name}`)
+          ) {
             window.history.pushState(
               "page2",
               "Title",
@@ -105,6 +115,21 @@ export class Store {
           break;
       }
     });
+  };
+
+  private requestSeatToken = async (tableName: string) => {
+    try {
+      const response = await fetch(`${REST_URL}/seat_token/${tableName}`);
+      const { seatToken } = await response.json();
+
+      if (!seatToken) {
+        throw new Error("InvalidResponse");
+      }
+
+      this.onJoinTable({ tableName, seatToken });
+    } catch (e) {
+      // TODO Handle Error
+    }
   };
 
   onJoinTable = (options: JoinTableOptions) => {

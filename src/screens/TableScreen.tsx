@@ -11,50 +11,64 @@ import Card from "../components/Card";
 
 import type { FCWithoutChildren } from "../types/component";
 
+const urlWithPath = (path: string) =>
+  window.location.protocol + "//" + window.location.host + "/" + path;
+
 const TableScreen: FCWithoutChildren = () => {
   const store = useStore();
+  const { table } = store.data;
 
-  if (!store.data.table) throw new Error("Expected a table");
+  if (!table) throw new Error("Expected a table");
 
   const currentPlayerHand = useMemo(() => {
-    if (!store.data.table) return undefined;
+    if (!table) return undefined;
 
-    const pocketCards = store.data.table.seats.find(
-      (s) => s.token === store.data.table?.currentUser.seatToken
+    const pocketCards = table.seats.find(
+      (s) => s.token === table?.currentUser.seatToken
     )?.pocketCards;
 
     if (!pocketCards) return undefined;
 
     return extractHand({
       pocketCards,
-      communityCards: [...store.data.table.communityCards],
+      communityCards: [...table.communityCards],
     });
-  }, [store.data.table]);
+  }, [table]);
 
   const describeHand = (pocketCards?: Cards) => {
-    if (!store.data.table) return undefined;
+    if (!table) return undefined;
 
     if (!pocketCards) return undefined;
 
     return extractHand({
       pocketCards,
-      communityCards: [...store.data.table.communityCards],
+      communityCards: [...table.communityCards],
     });
   };
+
+  const url =
+    !table.isStarted && !!table.seats.find((s) => s.isEmpty)
+      ? urlWithPath(`${table.name}`)
+      : undefined;
 
   return (
     <Container>
       <TopRight>
         <ConnectionStatus />
       </TopRight>
-      {!store.data.table.isStarted && (
+      {!table.isStarted && (
         <StartButton onClick={store.onStartGame}>Start Game</StartButton>
       )}
-
+      {url && (
+        <Center>
+          Table URL:
+          <a href={url}>{url}</a>
+        </Center>
+      )}
       <Pots>
-        <ChipBall chipCount={store.data.table.potChipCount} />
+        <ChipBall chipCount={table.potChipCount} />
       </Pots>
-      {store.data.table.splitPots.map((splitPot) => (
+      {table.splitPots.map((splitPot) => (
         <Pots>
           <Center>
             <ChipBall chipCount={splitPot.chipCount} />
@@ -64,7 +78,7 @@ const TableScreen: FCWithoutChildren = () => {
       ))}
       <Board>
         <CardPile slots={5}>
-          {store.data.table.communityCards.map(([face, suit]) => (
+          {table.communityCards.map(([face, suit]) => (
             <Card
               face={face}
               suit={suit}
@@ -79,7 +93,7 @@ const TableScreen: FCWithoutChildren = () => {
         </CardPile>
       </Board>
       <Seats>
-        {store.data.table.seats.map((s) => {
+        {table.seats.map((s) => {
           const isCurrentUser =
             store.data.table?.currentUser.seatToken === s.token;
 

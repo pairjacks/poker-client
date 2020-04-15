@@ -11,9 +11,6 @@ import type { Hand, Cards } from "@pairjacks/poker-cards";
 import type { Seat } from "@pairjacks/poker-messages";
 import type { FCWithoutChildren } from "../types/component";
 
-const urlWithPath = (path: string) =>
-  window.location.protocol + "//" + window.location.host + "/" + path;
-
 const SeatComponent: FCWithoutChildren<{
   tableName: string;
   seat: Seat;
@@ -60,81 +57,74 @@ const SeatComponent: FCWithoutChildren<{
     return seat.displayName;
   }, [isBust, isFolded, seat.displayName]);
 
-  if (seat.isEmpty) {
-    const url = urlWithPath(`${tableName}/${seat.token}`);
-
-    return (
-      <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
-        <Item>Empty</Item>
-        <Item>
-          <a href={url}>{url}</a>
-        </Item>
-      </Container>
-    );
-  }
-
   return (
     <OuterContainer>
       <Center>
         <ChipBall chipCount={seat.chipsBetCount} />
       </Center>
       <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
-        {isDealer && <DealerButton>D</DealerButton>}
-        <Item onClick={onDisplayNamePress} style={{ fontSize: 40 }}>
-          {emoji}
-        </Item>
-        {canBet && (
-          <Item>
-            <BetInputContainer>
-              Bet:
-              <input
-                type="text"
-                value={betInputValue}
-                onChange={(event) => setBetInputValue(event.target.value)}
-              />
-            </BetInputContainer>
-            <BetButton
-              onClick={() => {
-                onBetPress(Number(betInputValue));
-                setBetInputValue("");
-              }}
-              disabled={!betInputValue}
-            >
-              Bet
-            </BetButton>
-            <BetButton onClick={onCheckPress}>Check</BetButton>
-            <BetButton onClick={onCallPress}>Call</BetButton>
-            <BetButton onClick={onFoldPress}>Fold</BetButton>
-          </Item>
-        )}
-        <Center style={{ marginTop: 0 }}>
-          <ChipBall chipCount={seat.chipCount} />
-        </Center>
-        {pocketCards && (
-          <Item>
-            <PocketCards>
-              <CardPile slots={2}>
-                {pocketCards.map(([face, suit]) => (
-                  <Card
-                    face={face}
-                    suit={suit}
-                    highlight={
-                      !!hand?.rankCards.find((card) =>
-                        isSameCard(card, [face, suit])
-                      )
-                    }
-                    key={`${face}${suit}`}
+        {seat.isEmpty ? (
+          <Item>Empty</Item>
+        ) : (
+          <>
+            {isDealer && <DealerButton>D</DealerButton>}
+            <Item onClick={onDisplayNamePress} style={{ fontSize: 40 }}>
+              {emoji}
+            </Item>
+            {canBet && (
+              <Item>
+                <BetInputContainer>
+                  Bet:
+                  <input
+                    type="text"
+                    value={betInputValue}
+                    onChange={(event) => setBetInputValue(event.target.value)}
                   />
-                ))}
-              </CardPile>
-            </PocketCards>
-          </Item>
+                </BetInputContainer>
+                <BetButton
+                  onClick={() => {
+                    onBetPress(Number(betInputValue));
+                    setBetInputValue("");
+                  }}
+                  disabled={!betInputValue}
+                >
+                  Bet
+                </BetButton>
+                <BetButton onClick={onCheckPress}>Check</BetButton>
+                <BetButton onClick={onCallPress}>Call</BetButton>
+                <BetButton onClick={onFoldPress}>Fold</BetButton>
+              </Item>
+            )}
+            <Center style={{ marginTop: 0 }}>
+              <ChipBall chipCount={seat.chipCount} />
+            </Center>
+            {pocketCards && (
+              <Item>
+                <PocketCards>
+                  <CardPile slots={2}>
+                    {pocketCards.map(([face, suit]) => (
+                      <Card
+                        face={face}
+                        suit={suit}
+                        highlight={
+                          !!hand?.rankCards.find((card) =>
+                            isSameCard(card, [face, suit])
+                          )
+                        }
+                        key={`${face}${suit}`}
+                      />
+                    ))}
+                  </CardPile>
+                </PocketCards>
+              </Item>
+            )}
+            {canDeal ? (
+              <Item>
+                <DealButton onClick={onDealPress}>Deal</DealButton>
+              </Item>
+            ) : null}
+          </>
         )}
-        {canDeal ? (
-          <Item>
-            <DealButton onClick={onDealPress}>Deal</DealButton>
-          </Item>
-        ) : null}
       </Container>
       {hand ? Object.values(describeHand(hand)).join(", ") : " "}
     </OuterContainer>
