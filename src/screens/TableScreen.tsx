@@ -57,16 +57,17 @@ const TableScreen: FCWithoutChildren = () => {
         <ConnectionStatus />
       </TopRight>
       <PotsContainer>
-        {!table.isStarted && (
-          <StartButton onClick={store.onStartGame}>Start Game</StartButton>
-        )}
-        {url && (
-          <Center>
-            Table URL:
-            <a href={url}>{url}</a>
-          </Center>
-        )}
-
+        <StartContainer>
+          {!table.isStarted && (
+            <StartButton onClick={store.onStartGame}>Start Game</StartButton>
+          )}
+          {url && (
+            <Center>
+              Table URL:
+              <a href={url}>{url}</a>
+            </Center>
+          )}
+        </StartContainer>
         {[table.activePot, ...table.splitPots]
           .filter((sp) => !!sp.chipCount)
           .map((splitPot) => (
@@ -148,6 +149,11 @@ export default TableScreen;
 const Container = styled.div`
   display: flex;
   flex: 1 0;
+  flex-direction: column;
+`;
+
+const StartContainer = styled.div`
+  display: flex;
   flex-direction: column;
 `;
 
