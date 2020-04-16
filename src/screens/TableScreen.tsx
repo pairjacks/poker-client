@@ -56,16 +56,17 @@ const TableScreen: FCWithoutChildren = () => {
       <TopRight>
         <ConnectionStatus />
       </TopRight>
-      {!table.isStarted && (
-        <StartButton onClick={store.onStartGame}>Start Game</StartButton>
-      )}
-      {url && (
-        <Center>
-          Table URL:
-          <a href={url}>{url}</a>
-        </Center>
-      )}
-      <Pots>
+      <PotsContainer>
+        {!table.isStarted && (
+          <StartButton onClick={store.onStartGame}>Start Game</StartButton>
+        )}
+        {url && (
+          <Center>
+            Table URL:
+            <a href={url}>{url}</a>
+          </Center>
+        )}
+
         {[table.activePot, ...table.splitPots]
           .filter((sp) => !!sp.chipCount)
           .map((splitPot) => (
@@ -74,8 +75,8 @@ const TableScreen: FCWithoutChildren = () => {
               {splitPot.players.join("")}
             </CenterMargin>
           ))}
-      </Pots>
-      <Board>
+      </PotsContainer>
+      <CommunityCardsContainer>
         <CardPile slots={5}>
           {table.communityCards.map(([face, suit]) => (
             <Card
@@ -90,8 +91,8 @@ const TableScreen: FCWithoutChildren = () => {
             />
           ))}
         </CardPile>
-      </Board>
-      <Seats>
+      </CommunityCardsContainer>
+      <SeatsContainer>
         {table.seats.map((s) => {
           const isCurrentUser =
             store.data.table?.currentUser.seatToken === s.token;
@@ -137,7 +138,7 @@ const TableScreen: FCWithoutChildren = () => {
             />
           );
         })}
-      </Seats>
+      </SeatsContainer>
     </Container>
   );
 };
@@ -157,6 +158,27 @@ const TopRight = styled.div`
   top: 1em;
 `;
 
+const PotsContainer = styled.div`
+  display: flex;
+  height: 20vh;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CommunityCardsContainer = styled.div`
+  display: flex;
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SeatsContainer = styled.div`
+  display: flex;
+  height: 70vh;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+`;
+
 const Center = styled.div`
   display: flex;
   flex-direction: column;
@@ -174,22 +196,4 @@ const CenterMargin = styled.div`
 
 const StartButton = styled.button`
   margin: 2em auto;
-`;
-
-const Pots = styled.div`
-  margin: 2em auto;
-  display: flex;
-  flex-direction: "row";
-`;
-
-const Board = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 2em auto;
-`;
-
-const Seats = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-evenly;
 `;

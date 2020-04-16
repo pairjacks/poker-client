@@ -59,42 +59,18 @@ const SeatComponent: FCWithoutChildren<{
 
   return (
     <OuterContainer>
-      <Center>
+      <BetChipBallContainer>
         <ChipBall chipCount={seat.chipsBetCount} />
-      </Center>
-      <Container isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
+      </BetChipBallContainer>
+      <SeatContainer isCurrentPlayer={isCurrentUser} isTurn={isTurn}>
         {seat.isEmpty ? (
           <Item>Empty</Item>
         ) : (
           <>
             {isDealer && <DealerButton>D</DealerButton>}
-            <Item onClick={onDisplayNamePress} style={{ fontSize: 40 }}>
+            <div onClick={onDisplayNamePress} style={{ fontSize: 40 }}>
               {emoji}
-            </Item>
-            {canBet && (
-              <Item>
-                <BetInputContainer>
-                  Bet:
-                  <input
-                    type="text"
-                    value={betInputValue}
-                    onChange={(event) => setBetInputValue(event.target.value)}
-                  />
-                </BetInputContainer>
-                <BetButton
-                  onClick={() => {
-                    onBetPress(Number(betInputValue));
-                    setBetInputValue("");
-                  }}
-                  disabled={!betInputValue}
-                >
-                  Bet
-                </BetButton>
-                <BetButton onClick={onCheckPress}>Check</BetButton>
-                <BetButton onClick={onCallPress}>Call</BetButton>
-                <BetButton onClick={onFoldPress}>Fold</BetButton>
-              </Item>
-            )}
+            </div>
             <Center style={{ marginTop: 0 }}>
               <ChipBall chipCount={seat.chipCount} />
             </Center>
@@ -118,33 +94,55 @@ const SeatComponent: FCWithoutChildren<{
                 </PocketCards>
               </Item>
             )}
-            {canDeal ? (
-              <Item>
-                <DealButton onClick={onDealPress}>Deal</DealButton>
-              </Item>
-            ) : null}
           </>
         )}
-      </Container>
-      {hand ? Object.values(describeHand(hand)).join(", ") : " "}
+      </SeatContainer>
+      <ActionsContainer>
+        {hand ? Object.values(describeHand(hand))[0] : " "}
+        {canDeal ? <DealButton onClick={onDealPress}>Deal</DealButton> : null}
+        {canBet && (
+          <>
+            <BetInputContainer>
+              <input
+                style={{ width: 40 }}
+                type="text"
+                value={betInputValue}
+                onChange={(event) => setBetInputValue(event.target.value)}
+              />
+              <BetButton
+                onClick={() => {
+                  onBetPress(Number(betInputValue));
+                  setBetInputValue("");
+                }}
+                disabled={!betInputValue}
+              >
+                Bet
+              </BetButton>
+            </BetInputContainer>
+            <BetInputContainer>
+              <BetButton onClick={onCheckPress}>Check</BetButton>
+              <BetButton onClick={onCallPress}>Call</BetButton>
+              <BetButton onClick={onFoldPress}>Fold</BetButton>
+            </BetInputContainer>
+          </>
+        )}
+      </ActionsContainer>
     </OuterContainer>
   );
 };
 
 export default observer(SeatComponent);
 
-const OuterContainer = styled.ul`
+const OuterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-inline-start: 0;
 `;
 
-const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
+const SeatContainer = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
   position: relative;
-  flex: 1 0;
-  width: 14em;
-  margin: 1em;
+  width: 11em;
+  height: 15em;
   padding: 1em;
   border: ${({ isCurrentPlayer: isCurrentUser, isTurn, theme }) =>
     isTurn
@@ -157,8 +155,28 @@ const Container = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
       : theme.colors.opponentSeatBackground};
 `;
 
+const ActionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const BetInputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const Item = styled.li`
   margin-bottom: 0.4em;
+`;
+
+const BetChipBallContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100px;
 `;
 
 const Center = styled.div`
@@ -185,10 +203,6 @@ const DealerButton = styled.div`
   border-radius: 15px;
   background-color: black;
   color: white;
-`;
-
-const BetInputContainer = styled.label`
-  width: 5em;
 `;
 
 const BetButton = styled.button`
