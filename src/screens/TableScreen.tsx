@@ -71,7 +71,7 @@ const TableScreen: FCWithoutChildren = () => {
           .map((splitPot) => (
             <CenterMargin>
               <ChipBall chipCount={splitPot.chipCount} />
-              {splitPot.players.join(", ")}
+              {splitPot.players.join("")}
             </CenterMargin>
           ))}
       </Pots>
