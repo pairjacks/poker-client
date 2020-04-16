@@ -66,16 +66,15 @@ const TableScreen: FCWithoutChildren = () => {
         </Center>
       )}
       <Pots>
-        <ChipBall chipCount={table.potChipCount} />
+        {[table.activePot, ...table.splitPots]
+          .filter((sp) => !!sp.chipCount)
+          .map((splitPot) => (
+            <CenterMargin>
+              <ChipBall chipCount={splitPot.chipCount} />
+              {splitPot.players.join(", ")}
+            </CenterMargin>
+          ))}
       </Pots>
-      {table.splitPots.map((splitPot) => (
-        <Pots>
-          <Center>
-            <ChipBall chipCount={splitPot.chipCount} />
-            {`Split Pot: ${splitPot.players.join(", ")}`}
-          </Center>
-        </Pots>
-      ))}
       <Board>
         <CardPile slots={5}>
           {table.communityCards.map(([face, suit]) => (
@@ -165,12 +164,22 @@ const Center = styled.div`
   justify-content: center;
 `;
 
+const CenterMargin = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2em;
+`;
+
 const StartButton = styled.button`
   margin: 2em auto;
 `;
 
 const Pots = styled.div`
   margin: 2em auto;
+  display: flex;
+  flex-direction: "row";
 `;
 
 const Board = styled.div`
