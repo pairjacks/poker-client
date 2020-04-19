@@ -17,6 +17,8 @@ import type {
   ClientCheckMessage,
 } from "@pairjacks/poker-messages";
 
+import { themes, getNextThemeName } from "../style/theme";
+
 export interface JoinTableOptions {
   seatToken: string;
   tableName: string;
@@ -36,6 +38,7 @@ export type ServerConnectionStatus =
   | "disconnected";
 
 interface AppState {
+  themeName: string;
   connectionStatus: ServerConnectionStatus;
   table?: LimitedTable;
 }
@@ -48,6 +51,7 @@ const REST_URL = "https://easy-poker-server.herokuapp.com";
 
 export class Store {
   @observable data: AppState = {
+    themeName: themes.light.name,
     connectionStatus: "disconnected",
   };
 
@@ -104,6 +108,10 @@ export class Store {
           break;
       }
     });
+  };
+
+  cycleTheme = () => {
+    this.data.themeName = getNextThemeName(this.data.themeName);
   };
 
   private requestSeatToken = async (tableName: string) => {

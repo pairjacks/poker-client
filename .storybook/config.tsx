@@ -4,7 +4,7 @@ import { addDecorator } from "@storybook/react";
 import { withThemesProvider } from "storybook-addon-styled-component-theme";
 
 import GlobalStyle from "../src/style/GlobalStyle";
-import { lightTheme, darkTheme } from "../src/style/theme";
+import { themes } from "../src/style/theme";
 
 addDecorator((s) => (
   <>
@@ -13,7 +13,7 @@ addDecorator((s) => (
   </>
 ));
 addDecorator((s) => <Padded>{s()}</Padded>);
-addDecorator(withThemesProvider([darkTheme, lightTheme]));
+addDecorator(withThemesProvider([themes.dark, themes.light]));
 
 const Padded = styled.div`
   padding: 2em;

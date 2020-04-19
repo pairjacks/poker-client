@@ -1,3 +1,5 @@
+import { modulo } from "../lib/util/number";
+
 const baseTheme = {
   name: "light",
   fonts: {
@@ -57,9 +59,9 @@ const baseTheme = {
 
 export type Theme = typeof baseTheme;
 
-export const lightTheme: Theme = baseTheme;
+const lightTheme: Theme = baseTheme;
 
-export const darkTheme: Theme = {
+const darkTheme: Theme = {
   ...baseTheme,
   name: "dark",
   colors: {
@@ -79,8 +81,14 @@ export const darkTheme: Theme = {
   },
 };
 
-export const defaultTheme = lightTheme;
+export const themes = [lightTheme, darkTheme].reduce((acc, theme) => {
+  acc[theme.name] = theme;
+  return acc;
+}, {} as { [key: string]: Theme });
 
-export interface ThemeProps {
-  theme?: Theme;
-}
+export const availableThemeNames = Object.keys(themes);
+
+const mapNameIndex = modulo(availableThemeNames.length);
+
+export const getNextThemeName = (current: string) =>
+  availableThemeNames[mapNameIndex(availableThemeNames.indexOf(current) + 1)];

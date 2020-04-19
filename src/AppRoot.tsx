@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { observer } from "mobx-react";
 import styled from "styled-components";
 
@@ -10,6 +10,7 @@ import type { FCWithoutChildren } from "./types/component";
 
 const AppRoot: FCWithoutChildren = () => {
   const store = useStore();
+  const changeTheme = useMemo(() => store.cycleTheme, [store]);
 
   useEffect(() => {
     store.connect();
@@ -17,11 +18,16 @@ const AppRoot: FCWithoutChildren = () => {
 
   return (
     <Container>
-      {store.data.table ? (
-        <TableScreen />
-      ) : (
-        <CreateTableScreen onCreateTable={store.onCreateTable} />
-      )}
+      <AppBarContainer>
+        <ChangeThemeButton onClick={changeTheme}>D / L</ChangeThemeButton>
+      </AppBarContainer>
+      <ScreenContainer>
+        {store.data.table ? (
+          <TableScreen />
+        ) : (
+          <CreateTableScreen onCreateTable={store.onCreateTable} />
+        )}
+      </ScreenContainer>
     </Container>
   );
 };
@@ -29,5 +35,26 @@ const AppRoot: FCWithoutChildren = () => {
 export default observer(AppRoot);
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+`;
+
+const AppBarContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0;
+`;
+
+const ScreenContainer = styled.div`
+  flex: 1 0;
+`;
+
+const ChangeThemeButton = styled.button`
+  font: inherit;
+  color: inherit;
+  border: none;
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
