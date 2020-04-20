@@ -54,6 +54,8 @@ const baseTheme = {
     chip5: "red",
     chip10: "blue",
     chip25: "green",
+    dealerButtonBackground: "black",
+    dealerButtonText: "white",
   },
 };
 
@@ -78,6 +80,8 @@ const darkTheme: Theme = {
     playingCardSuitBlack: "white",
     playingCardHighlight: "rgba(255, 255, 255, 0.6)",
     playingCardPlaceholderBorder: "#333",
+    dealerButtonBackground: "white",
+    dealerButtonText: "black",
   },
 };
 

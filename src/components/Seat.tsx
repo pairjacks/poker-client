@@ -201,8 +201,8 @@ const DealerButton = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 15px;
-  background-color: black;
-  color: white;
+  background-color: ${({ theme }) => theme.colors.dealerButtonBackground};
+  color: ${({ theme }) => theme.colors.dealerButtonText};
 `;
 
 const BetButton = styled.button`
