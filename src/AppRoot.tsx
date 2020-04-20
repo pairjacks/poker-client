@@ -19,7 +19,7 @@ const AppRoot: FCWithoutChildren = () => {
   return (
     <Container>
       <AppBarContainer>
-        <ChangeThemeButton onClick={changeTheme}>D / L</ChangeThemeButton>
+        <ChangeThemeButton onClick={changeTheme}>{"😈 / 👼"}</ChangeThemeButton>
       </AppBarContainer>
       <ScreenContainer>
         {store.data.table ? (
