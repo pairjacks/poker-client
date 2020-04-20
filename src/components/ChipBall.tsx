@@ -17,7 +17,7 @@ const ChipBall: FCWithoutChildren<{
   chipCount: number;
   minSize?: number;
   maxSize?: number;
-}> = ({ chipCount, minSize = 30, maxSize = 100 }) => {
+}> = ({ chipCount, minSize = 30, maxSize = 80 }) => {
   const store = useStore();
   const theme = useTheme();
   const ratio = clampRatio(

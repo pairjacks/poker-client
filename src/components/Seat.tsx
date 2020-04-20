@@ -142,8 +142,9 @@ const OuterContainer = styled.div`
 const SeatContainer = styled.ul<{ isCurrentPlayer: boolean; isTurn: boolean }>`
   position: relative;
   width: 11em;
-  height: 15em;
+  height: 14em;
   padding: 1em;
+  margin-block-start: 0;
   border: ${({ isCurrentPlayer: isCurrentUser, isTurn, theme }) =>
     isTurn
       ? `5px solid ${theme.colors.currentTurnAccent}`
@@ -175,8 +176,8 @@ const BetChipBallContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
 `;
 
 const Center = styled.div`
