@@ -51,7 +51,7 @@ const REST_URL = "https://easy-poker-server.herokuapp.com";
 
 export class Store {
   @observable data: AppState = {
-    themeName: themes.light.name,
+    themeName: themes.dark.name,
     connectionStatus: "disconnected",
   };
 
